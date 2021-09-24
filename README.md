@@ -20,3 +20,7 @@ Problem Statement:
 ## Additional Features
 - User facing app.
 - Self service for stock checking and purchase.
+
+High Level Architecture - Basic Version:
+
+![Shop-Keeper](https://user-images.githubusercontent.com/17318158/134674078-6729eeea-85c0-4493-9024-2daddad68a90.png)
