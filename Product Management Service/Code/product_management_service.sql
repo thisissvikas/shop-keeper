@@ -3,9 +3,15 @@ CREATE TABLE products (
   name varchar(255),
   price decimal(10,2),
   category varchar(255),
-  image blob,
   description text,
-  specification JSON,
-  created_on timestamp,
-  last_updated timestamp 
+  specifications JSON,
+  created_timestamp timestamp,
+  updated_timestamp timestamp 
 );
+
+CREATE TABLE product_images (
+  id int PRIMARY KEY,
+  product_id int FOREIGN KEY REFERENCES products(id),
+  image blob,
+  image_description text
+)
