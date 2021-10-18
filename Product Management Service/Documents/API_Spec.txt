@@ -2,9 +2,9 @@ GET /products  - Get all products
 
 GET /products/{id}  - Get product by ID
 
-GET /products/?category=Cleansers  - Get products by category
+GET /products?category={category_name}  - Get products by category
 
-GET /products/?specifications[brand]=Nivea  - Get products by particular brand
+GET /products?specifications[brand]={brandName}  - Get products by particular brand
 
 POST /products  -  Create Product
 {
