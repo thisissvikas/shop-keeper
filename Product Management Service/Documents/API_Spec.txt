@@ -1,0 +1,37 @@
+GET /products  - Get all products
+
+GET /products/{id}  - Get product by ID
+
+GET /products?category={category_name}  - Get products by category
+
+GET /products?specifications[brand]={brandName}  - Get products by particular brand
+
+POST /products  -  Create Product
+{
+    name : "Nivea Soap",
+    price : 50,
+    category : "Bath & Body",
+    description : "Use for effective cleansing of hands and body, without losing the skin's natural moisture.",
+    specifications : {
+        brand : "Nivea"
+        weight : 125
+        colour : "white"
+    }
+}
+
+PUT /products/{id}  -  Update product by ID
+{
+    name : "Nivea Soap",
+    price : 50,
+    category : "Cleansers",
+    description : "Use for effective cleansing of hands and body, without losing the skin's natural moisture.",
+    specifications : {
+        brand : "Nivea"
+        weight : 125
+        colour : "white"
+    }
+}
+
+DELETE /products/{id}  -  Delete product by ID
+
+DELETE /products  -  Delete all products
