@@ -1,0 +1,35 @@
+GET /products  - Get all products
+
+GET /products/{ID}  - Get product by ID
+
+POST /products  -  Create Product
+{
+    name : "Nivea Soap",
+    price : 50,
+    category : "Bath & Body",
+    description : "Use for effective cleansing of hands and body, without losing the skin's natural moisture.",
+    specifications : {
+        brand : "Nivea"
+        weight : 125
+        colour : "white"
+    },
+    created_timestamp : 2021-10-18 16:00:00,
+    updated_timestamp : 2021-10-18 16:00:00 
+}
+
+PUT /products/{ID}  -  Update product by ID
+{
+    name : "Nivea Soap",
+    price : 50,
+    category : "Cleansers",
+    description : "Use for effective cleansing of hands and body, without losing the skin's natural moisture.",
+    specifications : {
+        brand : "Nivea"
+        weight : 125
+        colour : "white"
+    },
+    created_timestamp : 2021-10-18 16:00:00,
+    updated_timestamp : 2021-10-18 16:00:00 
+}
+
+DELETE /products/{ID}  -  Delete product by ID
