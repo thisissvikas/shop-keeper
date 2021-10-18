@@ -1,6 +1,10 @@
 GET /products  - Get all products
 
-GET /products/{ID}  - Get product by ID
+GET /products/{id}  - Get product by ID
+
+GET /products/?category=Cleansers  - Get products by category
+
+GET /products/?specifications[brand]=Nivea  - Get products by particular brand
 
 POST /products  -  Create Product
 {
@@ -12,12 +16,10 @@ POST /products  -  Create Product
         brand : "Nivea"
         weight : 125
         colour : "white"
-    },
-    created_timestamp : 2021-10-18 16:00:00,
-    updated_timestamp : 2021-10-18 16:00:00 
+    }
 }
 
-PUT /products/{ID}  -  Update product by ID
+PUT /products/{id}  -  Update product by ID
 {
     name : "Nivea Soap",
     price : 50,
@@ -27,9 +29,9 @@ PUT /products/{ID}  -  Update product by ID
         brand : "Nivea"
         weight : 125
         colour : "white"
-    },
-    created_timestamp : 2021-10-18 16:00:00,
-    updated_timestamp : 2021-10-18 16:00:00 
+    }
 }
 
-DELETE /products/{ID}  -  Delete product by ID
+DELETE /products/{id}  -  Delete product by ID
+
+DELETE /products  -  Delete all products
