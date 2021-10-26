@@ -24,7 +24,7 @@ public class Product {
 
   @Getter @Setter private String name;
 
-  @Getter @Setter private float price;
+  @Getter @Setter private Float price;
 
   @Getter @Setter private String category;
 

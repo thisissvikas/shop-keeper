@@ -1,17 +1,21 @@
-CREATE TABLE products (
-  id int PRIMARY KEY,
-  name varchar(255),
-  price decimal(10,2),
-  category varchar(255),
-  description text,
-  specifications JSON,
-  created_timestamp timestamp,
-  updated_timestamp timestamp 
+CREATE TABLE products(
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    name varchar(1000),
+    price decimal(10, 2),
+    category varchar(255),
+    description text,
+    specifications json,
+    created_timestamp timestamp DEFAULT '0000-00-00 00:00:00',
+    updated_timestamp timestamp DEFAULT '0000-00-00 00:00:00'
 );
 
-CREATE TABLE product_images (
-  id int PRIMARY KEY,
-  product_id int FOREIGN KEY REFERENCES products(id),
-  image blob,
-  image_description text
-)
+
+CREATE TABLE product_images(
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    product_id int unsigned,
+    image blob,
+    description text,
+    created_timestamp timestamp DEFAULT '0000-00-00 00:00:00',
+    updated_timestamp timestamp DEFAULT '0000-00-00 00:00:00',
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
