@@ -13,7 +13,7 @@
 	<artifactId>product-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>product-service</name>
-	<description>Shop-Keeper application to support end-to-end management of everything that a Shopkeeper needs to deal with on a daily basis.</description>
+	<description>Product Service in Shop-Keeper application to manage everything related to product and its details.</description>
 	<properties>
 		<java.version>11</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>

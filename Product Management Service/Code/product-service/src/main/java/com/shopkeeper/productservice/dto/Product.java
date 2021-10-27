@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,7 +34,9 @@ public class Product {
 
   @Getter @Setter private HashMap<String, String> specifications;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   @Getter @Setter private Date createdTimestamp;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   @Getter @Setter private Date updatedTimestamp;
 }
