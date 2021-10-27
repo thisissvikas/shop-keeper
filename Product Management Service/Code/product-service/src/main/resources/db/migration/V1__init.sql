@@ -1,4 +1,4 @@
-CREATE TABLE products(
+CREATE TABLE if not exists products(
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     name varchar(1000),
     price decimal(10, 2),
@@ -10,7 +10,7 @@ CREATE TABLE products(
 );
 
 
-CREATE TABLE product_images(
+CREATE TABLE if not exists product_images(
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     product_id int unsigned,
     image blob,

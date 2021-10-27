@@ -1,0 +1,18 @@
+api:
+  name: product
+  version: v1
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost/shopkeeper?createDatabaseIfNotExist=true
+    username: root
+    password: Hello!123#
+    driverClassName: com.mysql.cj.jdbc.Driver
