@@ -21,25 +21,39 @@ import lombok.Getter;
 @Table(name = "product_images")
 public class ProductImages {
 
-  @Getter @Setter @Id  @GeneratedValue(strategy = GenerationType.AUTO) 
+  @Getter
+  @Setter
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private Integer id;
 
-  @Getter @Setter @Lob private byte[] image;
+  @Getter
+  @Setter
+  @Lob
+  @Column(name = "image", columnDefinition = "BLOB")
+  private byte[] image;
 
-  @Getter @Setter @Column(name = "image_description")
+  @Getter
+  @Setter
+  @Column(name = "image_description")
   private String imageDescription;
-  
-  @Getter @Setter @Column(name = "created_timestamp")
+
+  @Getter
+  @Setter
+  @Column(name = "created_timestamp")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   private Date createdTimestamp;
 
-  @Getter @Setter @Column(name = "updated_timestamp")
+  @Getter
+  @Setter
+  @Column(name = "updated_timestamp")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   private Date updatedTimestamp;
-  
-  @Getter @Setter @ManyToOne
-  @JoinColumn(name="product_id", nullable=false)
-  private Product product;
 
+  @Getter
+  @Setter
+  @ManyToOne
+  @JoinColumn(name = "product_id", nullable = false)
+  private Product product;
 }

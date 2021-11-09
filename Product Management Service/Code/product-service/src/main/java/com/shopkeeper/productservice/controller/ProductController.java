@@ -1,6 +1,7 @@
-package com.shopkeeper.service.controller;
+package com.shopkeeper.productservice.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,19 +27,18 @@ public class ProductController {
 	@Autowired
 	ProductService productSrvice;
 	
-	@GetMapping
-	public ResponseEntity<List<Product>> getAllProducts() {
-		return new ResponseEntity<>(productSrvice.getAllProducts(), HttpStatus.OK);
-	}
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(Integer id) {
+	public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
 		return new ResponseEntity<>(productSrvice.getProductById(id), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Product>> getProductByCategory(@RequestParam("category") String category) {
-		return new ResponseEntity<>(productSrvice.getProductByCategory(category), HttpStatus.OK);
+	public ResponseEntity<List<Product>> getProducts(@RequestParam("category") Optional<String> category) {
+		if(category.isPresent()) {
+      return new ResponseEntity<>(productSrvice.getProductByCategory(category), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(productSrvice.getAllProducts(), HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +48,7 @@ public class ProductController {
     }
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Product> updateProductById(@RequestBody Product product, Integer id) {
+	public ResponseEntity<Product> updateProductById(@RequestBody Product product,@PathVariable Integer id) {
 		Product productData = productSrvice.updateProductById(product, id);
 		return new ResponseEntity<>(productData, HttpStatus.OK);
 	}
