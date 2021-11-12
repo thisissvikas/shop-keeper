@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -57,6 +58,6 @@ public class Product {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "product")
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ProductImages> productImages;
 }
