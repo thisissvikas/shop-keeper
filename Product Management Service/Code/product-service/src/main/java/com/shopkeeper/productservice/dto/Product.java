@@ -2,7 +2,7 @@ package com.shopkeeper.productservice.dto;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -58,5 +58,5 @@ public class Product {
   @Getter
   @Setter
   @OneToMany(mappedBy = "product")
-  private Set<ProductImages> productImages;
+  private List<ProductImages> productImages;
 }

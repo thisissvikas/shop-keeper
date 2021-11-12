@@ -10,6 +10,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 20MB
   datasource:
     platform: mysql
     url: jdbc:mysql://localhost/shopkeeper?createDatabaseIfNotExist=true
