@@ -17,7 +17,7 @@ public class ProductService {
 
   @Autowired ProductRepository productRepository;
 
-  public ResponseEntity<List<Product>> isCategoryPresent(String category) {
+  public ResponseEntity<List<Product>> getProducts(String category) {
     if (category != null && !category.isEmpty()) {
       return getProductByCategory(category);
     } else {
@@ -25,7 +25,7 @@ public class ProductService {
     }
   }
 
-  public ResponseEntity<List<Product>> getAllProducts() {
+  private ResponseEntity<List<Product>> getAllProducts() {
     List<Product> products = new ArrayList<Product>();
     productRepository.findAll().forEach(products::add);
     return new ResponseEntity<>(products, HttpStatus.OK);
@@ -40,7 +40,7 @@ public class ProductService {
     }
   }
 
-  public ResponseEntity<List<Product>> getProductByCategory(String category) {
+  private ResponseEntity<List<Product>> getProductByCategory(String category) {
     return new ResponseEntity<>(productRepository.findByCategory(category), HttpStatus.OK);
   }
 
@@ -77,11 +77,11 @@ public class ProductService {
 
   public ResponseEntity<?> deleteProductById(Integer id) {
     productRepository.deleteById(id);
-    return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
   }
 
   public ResponseEntity<?> deleteAllProducts() {
     productRepository.deleteAll();
-    return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
   }
 }

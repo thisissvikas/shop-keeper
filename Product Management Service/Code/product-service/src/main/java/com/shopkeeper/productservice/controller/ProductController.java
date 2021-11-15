@@ -32,7 +32,7 @@ public class ProductController {
   @GetMapping
   public ResponseEntity<List<Product>> getProducts(
       @RequestParam(required = false) String category) {
-    return productSrvice.isCategoryPresent(category);
+    return productSrvice.getProducts(category);
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
