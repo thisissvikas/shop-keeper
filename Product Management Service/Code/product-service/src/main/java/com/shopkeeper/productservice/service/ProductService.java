@@ -5,32 +5,46 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.shopkeeper.productservice.dao.ProductServiceRepository;
+import com.shopkeeper.productservice.dao.ProductRepository;
 import com.shopkeeper.productservice.dto.Product;
 
 @Service
 public class ProductService {
 
-  @Autowired ProductServiceRepository productRepository;
+  @Autowired ProductRepository productRepository;
 
-  public List<Product> getAllProducts() {
+  public ResponseEntity<List<Product>> isCategoryPresent(String category) {
+    if (category != null && !category.isEmpty()) {
+      return getProductByCategory(category);
+    } else {
+      return getAllProducts();
+    }
+  }
+
+  public ResponseEntity<List<Product>> getAllProducts() {
     List<Product> products = new ArrayList<Product>();
     productRepository.findAll().forEach(products::add);
-    return products;
+    return new ResponseEntity<>(products, HttpStatus.OK);
   }
 
-  public Product getProductById(Integer id) {
-    return productRepository.findById(id).orElse(null);
+  public ResponseEntity<Product> getProductById(Integer id) {
+    Product product = productRepository.findById(id).orElse(null);
+    if (product != null) {
+      return new ResponseEntity<>(product, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
   }
 
-  public List<Product> getProductByCategory(String category) {
-    List<Product> products = productRepository.findByCategory(category);
-    return products;
+  public ResponseEntity<List<Product>> getProductByCategory(String category) {
+    return new ResponseEntity<>(productRepository.findByCategory(category), HttpStatus.OK);
   }
 
-  public Product createProduct(Product product) {
+  public ResponseEntity<Product> createProduct(Product product) {
     Product productData = new Product();
     productData.setId(product.getId());
     productData.setName(product.getName());
@@ -41,27 +55,33 @@ public class ProductService {
     productData.setCreatedTimestamp(new Date());
     productData.setUpdatedTimestamp(new Date());
     productRepository.save(productData);
-    return productData;
+    return new ResponseEntity<>(productData, HttpStatus.CREATED);
   }
 
-  public Product updateProductById(Product product, Integer id) {
+  public ResponseEntity<Product> updateProductById(Product product, Integer id) {
     Product productData = productRepository.findById(id).orElse(null);
-    productData.setName(product.getName());
-    productData.setPrice(product.getPrice());
-    productData.setDescription(product.getDescription());
-    productData.setCategory(product.getCategory());
-    productData.setSpecifications(product.getSpecifications());
-    productData.setCreatedTimestamp(productData.getCreatedTimestamp());
-    productData.setUpdatedTimestamp(new Date());
-    productRepository.save(productData);
-    return productData;
+    if (productData != null) {
+      productData.setId(productData.getId());
+      productData.setName(product.getName());
+      productData.setPrice(product.getPrice());
+      productData.setDescription(product.getDescription());
+      productData.setCategory(product.getCategory());
+      productData.setSpecifications(product.getSpecifications());
+      productData.setCreatedTimestamp(productData.getCreatedTimestamp());
+      productData.setUpdatedTimestamp(new Date());
+      productRepository.save(productData);
+      return new ResponseEntity<>(productData, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
   }
 
-  public void deleteProductById(Integer id) {
+  public ResponseEntity<?> deleteProductById(Integer id) {
     productRepository.deleteById(id);
+    return new ResponseEntity<>("Deleted", HttpStatus.OK);
   }
 
-  public void deleteAllProducts() {
+  public ResponseEntity<?> deleteAllProducts() {
     productRepository.deleteAll();
+    return new ResponseEntity<>("Deleted", HttpStatus.OK);
   }
 }

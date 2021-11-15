@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.shopkeeper.productservice.dto.Product;
 
 @Repository
-public interface ImageServiceRepository extends CrudRepository<Product, Integer>{
+public interface ImageRepository extends CrudRepository<Product, Integer>{
 	
 }
