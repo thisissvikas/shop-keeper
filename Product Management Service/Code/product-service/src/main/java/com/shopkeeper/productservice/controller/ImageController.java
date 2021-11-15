@@ -3,7 +3,6 @@ package com.shopkeeper.productservice.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,26 +24,24 @@ public class ImageController {
 
   @GetMapping("/{id}")
   public ResponseEntity<List<ProductImages>> getImagesByProductId(@PathVariable Integer id) {
-    return new ResponseEntity<>(imageService.getImagesByProductId(id), HttpStatus.OK);
+    return imageService.getImagesByProductId(id);
   }
 
   @PostMapping(path = "/{id}")
   public ResponseEntity<ProductImages> createImage(
       @PathVariable Integer id, @RequestParam("file") MultipartFile file) {
-    return new ResponseEntity<>(imageService.createProductImage(id, file), HttpStatus.OK);
+    return imageService.createProductImage(id, file);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteAllImagesByProductId(@PathVariable Integer id) {
-    imageService.deleteAllImages(id);
-    return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    return imageService.deleteAllImages(id);
   }
 
   @DeleteMapping("/{id}/{imageId}")
   public ResponseEntity<?> deleteAllProducts(
       @PathVariable Integer id, @PathVariable Integer imageId) {
-    imageService.deleteImageById(id, imageId);
-    return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    return imageService.deleteImageById(id, imageId);
   }
 }
 

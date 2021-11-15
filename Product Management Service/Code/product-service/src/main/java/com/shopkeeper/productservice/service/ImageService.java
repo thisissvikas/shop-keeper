@@ -7,6 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,40 +28,63 @@ public class ImageService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
-  public List<ProductImages> getImagesByProductId(int id) {
-    return imageRepository.findByProductId(id).orElse(null);
+  public ResponseEntity<List<ProductImages>> getImagesByProductId(Integer id) {
+    Product product = productRepository.findById(id).orElse(null);
+    if (product != null
+        && product.getProductImages() != null
+        && !product.getProductImages().isEmpty()) {
+      return new ResponseEntity<>(product.getProductImages(), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
   }
 
-  public ProductImages createProductImage(int id, MultipartFile file) {
+  public ResponseEntity<ProductImages> createProductImage(Integer id, MultipartFile file) {
     ProductImages imageDetails = new ProductImages();
     Product productDetails = productRepository.findById(id).orElse(null);
-    try {
-      imageDetails.setImage(file.getBytes());
-    } catch (IOException e) {
-      LOGGER.error("Error storing image to database.", e);
-      ;
+    if (productDetails != null) {
+      try {
+        imageDetails.setImage(file.getBytes());
+      } catch (IOException e) {
+        LOGGER.error("Error storing image to database.", e);
+      }
+      imageDetails.setCreatedTimestamp(new Date());
+      imageDetails.setUpdatedTimestamp(new Date());
+      imageDetails.setProduct(productDetails);
+      imageRepository.save(imageDetails);
+      return new ResponseEntity<>(imageDetails, HttpStatus.CREATED);
+    } else {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    imageDetails.setCreatedTimestamp(new Date());
-    imageDetails.setUpdatedTimestamp(new Date());
-    imageDetails.setProduct(productDetails);
-    imageRepository.save(imageDetails);
-    return imageDetails;
   }
 
-  public void deleteImageById(int id, int imageId) {
+  public ResponseEntity<?> deleteImageById(Integer id, Integer imageId) {
     Product productDetails = productRepository.findById(id).orElse(null);
-    List<ProductImages> list = productDetails.getProductImages();
-    if (list != null && !list.isEmpty()) {
-      for (ProductImages image : list) {
+    Boolean found = false;
+    if (productDetails != null
+        && productDetails.getProductImages() != null
+        && !productDetails.getProductImages().isEmpty()) {
+      for (ProductImages image : productDetails.getProductImages()) {
         if (image.getId() == imageId) {
-          imageRepository.deleteById(imageId);
+          found = true;
+          imageRepository.delete(image);
+          break;
         }
       }
+      if (found == true) {
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+      } else {
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+      }
     }
+    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
   }
 
-  public void deleteAllImages(int id) {
-    imageRepository.deleteByProductId(id);
+  public ResponseEntity<?> deleteAllImages(Integer id) {
+    if (productRepository.existsById(id)) {
+      imageRepository.deleteByProductId(id);
+      return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
   }
 }
-

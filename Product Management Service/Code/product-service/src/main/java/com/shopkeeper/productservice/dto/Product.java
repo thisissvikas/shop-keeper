@@ -57,7 +57,7 @@ public class Product {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<ProductImages> productImages;
 }
 
