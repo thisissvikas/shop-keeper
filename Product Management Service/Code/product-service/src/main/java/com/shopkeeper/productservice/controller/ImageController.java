@@ -47,3 +47,4 @@ public class ImageController {
     return new ResponseEntity<>("Deleted", HttpStatus.OK);
   }
 }
+

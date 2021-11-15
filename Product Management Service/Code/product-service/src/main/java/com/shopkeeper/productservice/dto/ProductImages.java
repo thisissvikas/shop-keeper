@@ -36,6 +36,12 @@ public class ProductImages {
 
   @Getter
   @Setter
+
+  @Column(name = "image_description")
+  private String imageDescription;
+
+  @Getter
+  @Setter
   @Column(name = "created_timestamp")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   private Date createdTimestamp;

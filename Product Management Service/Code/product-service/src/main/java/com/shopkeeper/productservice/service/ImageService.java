@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.shopkeeper.productservice.dao.ImageServiceRepository;
-import com.shopkeeper.productservice.dao.ProductServiceRepository;
+import com.shopkeeper.productservice.dao.ImageRepository;
+import com.shopkeeper.productservice.dao.ProductRepository;
 import com.shopkeeper.productservice.dto.Product;
 import com.shopkeeper.productservice.dto.ProductImages;
 
@@ -20,9 +20,9 @@ import com.shopkeeper.productservice.dto.ProductImages;
 @Transactional
 public class ImageService {
 
-  @Autowired ImageServiceRepository imageRepository;
+  @Autowired ImageRepository imageRepository;
 
-  @Autowired ProductServiceRepository productRepository;
+  @Autowired ProductRepository productRepository;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -62,3 +62,4 @@ public class ImageService {
     imageRepository.deleteByProductId(id);
   }
 }
+

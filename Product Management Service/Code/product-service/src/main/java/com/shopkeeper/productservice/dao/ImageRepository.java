@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.shopkeeper.productservice.dto.ProductImages;
 
 @Repository
-public interface ImageServiceRepository extends PagingAndSortingRepository<ProductImages, Integer> {
+public interface ImageRepository extends PagingAndSortingRepository<ProductImages, Integer> {
 
-  Optional<List<ProductImages>> findByProductId(Integer id);
+	  Optional<List<ProductImages>> findByProductId(Integer id);
 
-  void deleteByProductId(Integer id);
-}
+	  void deleteByProductId(Integer id);
+	}

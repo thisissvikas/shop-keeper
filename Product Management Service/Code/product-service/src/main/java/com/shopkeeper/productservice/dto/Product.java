@@ -3,7 +3,6 @@ package com.shopkeeper.productservice.dto;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -61,3 +60,4 @@ public class Product {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ProductImages> productImages;
 }
+
