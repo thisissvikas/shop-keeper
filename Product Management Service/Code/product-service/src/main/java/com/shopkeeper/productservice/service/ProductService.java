@@ -76,8 +76,11 @@ public class ProductService {
   }
 
   public ResponseEntity<?> deleteProductById(Integer id) {
-    productRepository.deleteById(id);
-    return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+    if (productRepository.existsById(id)) {
+      productRepository.deleteById(id);
+      return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
   }
 
   public ResponseEntity<?> deleteAllProducts() {

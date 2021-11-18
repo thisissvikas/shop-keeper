@@ -13,8 +13,7 @@ CREATE TABLE if not exists products(
 CREATE TABLE if not exists product_images(
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     product_id int unsigned,
-    image blob,
-    description text,
+    image longblob,
     created_timestamp timestamp DEFAULT '0000-00-00 00:00:00',
     updated_timestamp timestamp DEFAULT '0000-00-00 00:00:00',
     FOREIGN KEY (product_id) REFERENCES products(id)

@@ -2,8 +2,8 @@ package com.shopkeeper.productservice.dto;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Set;
-
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -57,6 +57,7 @@ public class Product {
 
   @Getter
   @Setter
-  @OneToMany(mappedBy = "product")
-  private Set<ProductImages> productImages;
+  @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<ProductImages> productImages;
 }
+

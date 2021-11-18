@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class ProductImages {
   @Getter
   @Setter
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Integer id;
 
@@ -33,11 +34,6 @@ public class ProductImages {
   @Lob
   @Column(name = "image", columnDefinition = "BLOB")
   private byte[] image;
-
-  @Getter
-  @Setter
-  @Column(name = "image_description")
-  private String imageDescription;
 
   @Getter
   @Setter
@@ -51,9 +47,8 @@ public class ProductImages {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss z")
   private Date updatedTimestamp;
 
-  @Getter
   @Setter
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_id", nullable = false)
   private Product product;
 }
