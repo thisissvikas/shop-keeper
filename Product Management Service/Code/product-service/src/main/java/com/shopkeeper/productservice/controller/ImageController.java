@@ -22,26 +22,24 @@ public class ImageController {
 
   @Autowired ImageService imageService;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<List<ProductImages>> getImagesByProductId(@PathVariable Integer id) {
-    return imageService.getImagesByProductId(id);
+  @GetMapping
+  public ResponseEntity<List<ProductImages>> getImagesByProductId(@RequestParam int productId) {
+    return imageService.getImagesByProductId(productId);
   }
 
-  @PostMapping(path = "/{id}")
+  @PostMapping
   public ResponseEntity<ProductImages> createImage(
-      @PathVariable Integer id, @RequestParam("file") MultipartFile file) {
-    return imageService.createProductImage(id, file);
+      @RequestParam int productId, @RequestParam("file") MultipartFile file) {
+    return imageService.createProductImage(productId, file);
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteAllImagesByProductId(@PathVariable Integer id) {
-    return imageService.deleteAllImages(id);
+  @DeleteMapping
+  public ResponseEntity<?> deleteAllImagesByProductId(@RequestParam int productId) {
+    return imageService.deleteAllImages(productId);
   }
 
-  @DeleteMapping("/{id}/{imageId}")
-  public ResponseEntity<?> deleteAllProducts(
-      @PathVariable Integer id, @PathVariable Integer imageId) {
-    return imageService.deleteImageById(id, imageId);
+  @DeleteMapping("/{imageId}")
+  public ResponseEntity<?> deleteImageById(@PathVariable int imageId) {
+    return imageService.deleteImageById(imageId);
   }
 }
-

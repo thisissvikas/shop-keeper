@@ -28,61 +28,47 @@ public class ImageService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
-  public ResponseEntity<List<ProductImages>> getImagesByProductId(Integer id) {
-    Product product = productRepository.findById(id).orElse(null);
-    if (product != null
-        && product.getProductImages() != null
-        && !product.getProductImages().isEmpty()) {
-      return new ResponseEntity<>(product.getProductImages(), HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-  }
-
-  public ResponseEntity<ProductImages> createProductImage(Integer id, MultipartFile file) {
-    ProductImages imageDetails = new ProductImages();
-    Product productDetails = productRepository.findById(id).orElse(null);
-    if (productDetails != null) {
-      try {
-        imageDetails.setImage(file.getBytes());
-      } catch (IOException e) {
-        LOGGER.error("Error storing image to database.", e);
-      }
-      imageDetails.setCreatedTimestamp(new Date());
-      imageDetails.setUpdatedTimestamp(new Date());
-      imageDetails.setProduct(productDetails);
-      imageRepository.save(imageDetails);
-      return new ResponseEntity<>(imageDetails, HttpStatus.CREATED);
-    } else {
-      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-  }
-
-  public ResponseEntity<?> deleteImageById(Integer id, Integer imageId) {
-    Product productDetails = productRepository.findById(id).orElse(null);
-    Boolean found = false;
-    if (productDetails != null
-        && productDetails.getProductImages() != null
-        && !productDetails.getProductImages().isEmpty()) {
-      for (ProductImages image : productDetails.getProductImages()) {
-        if (image.getId() == imageId) {
-          found = true;
-          imageRepository.delete(image);
-          break;
-        }
-      }
-      if (found == true) {
-        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
-      } else {
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-      }
+  public ResponseEntity<List<ProductImages>> getImagesByProductId(int productId) {
+    List<ProductImages> imageDetails = imageRepository.findByProductId(productId);
+    if (imageDetails != null && !imageDetails.isEmpty()) {
+      return new ResponseEntity<>(imageDetails, HttpStatus.OK);
     }
     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
   }
 
-  public ResponseEntity<?> deleteAllImages(Integer id) {
-    if (productRepository.existsById(id)) {
-      imageRepository.deleteByProductId(id);
+  public ResponseEntity<ProductImages> createProductImage(int productId, MultipartFile file) {
+    ProductImages imageDetails = new ProductImages();
+    Product productDetails = productRepository.findById(productId).orElse(null);
+    if (productDetails != null) {
+      try {
+        imageDetails.setImage(file.getBytes());
+        imageDetails.setCreatedTimestamp(new Date());
+        imageDetails.setUpdatedTimestamp(new Date());
+        imageDetails.setProduct(productDetails);
+        imageRepository.save(imageDetails);
+        return new ResponseEntity<>(imageDetails, HttpStatus.CREATED);
+      } catch (IOException e) {
+        LOGGER.error("Error storing image to database.", e);
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+      }
+
+    } else {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  public ResponseEntity<?> deleteImageById(int imageId) {
+    if (imageRepository.existsById(imageId)) {
+      imageRepository.deleteById(imageId);
+      return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
+    } else {
+      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  public ResponseEntity<?> deleteAllImages(int productId) {
+    if (productRepository.existsById(productId)) {
+      imageRepository.deleteByProductId(productId);
       return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
