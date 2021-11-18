@@ -35,11 +35,11 @@ public class ImageController {
 
   @DeleteMapping
   public ResponseEntity<?> deleteAllImagesByProductId(@RequestParam int productId) {
-    return imageService.deleteAllImages(productId);
+    return imageService.deleteAllImagesByProductId(productId);
   }
 
-  @DeleteMapping("/{imageId}")
-  public ResponseEntity<?> deleteImageById(@PathVariable int imageId) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteImageById(@PathVariable("id") int imageId) {
     return imageService.deleteImageById(imageId);
   }
 }

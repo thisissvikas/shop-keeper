@@ -66,7 +66,7 @@ public class ImageService {
     }
   }
 
-  public ResponseEntity<?> deleteAllImages(int productId) {
+  public ResponseEntity<?> deleteAllImagesByProductId(int productId) {
     if (productRepository.existsById(productId)) {
       imageRepository.deleteByProductId(productId);
       return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
