@@ -46,7 +46,6 @@ public class ProductService {
 
   public ResponseEntity<Product> createProduct(Product product) {
     Product productData = new Product();
-    productData.setId(product.getId());
     productData.setName(product.getName());
     productData.setPrice(product.getPrice());
     productData.setDescription(product.getDescription());
