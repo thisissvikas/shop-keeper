@@ -139,7 +139,7 @@ public class ImageServiceTest {
   @Test
   public void testDeleteAllImagesByProductIdForFalse() {
     Mockito.when(mockProductRepository.existsById(Mockito.anyInt())).thenReturn(false);
-    ResponseEntity<?> response = imageService.deleteAllImagesByProductId(10);
+    ResponseEntity<?> response = imageService.deleteAllImagesByProductId(20);
     Assert.isTrue(response.getStatusCode().is4xxClientError(), "is 4xx error");
     Assert.isNull(response.getBody(), "response is null");
   }
