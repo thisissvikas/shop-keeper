@@ -127,6 +127,7 @@ public class ProductServiceTest {
 	@Test
 	public void testDeleteProductById() {
 		Mockito.when(mockProductRepository.existsById(Mockito.anyInt())).thenReturn(true);
+		Mockito.doNothing().when(mockProductRepository).deleteById(Mockito.anyInt());
 		ResponseEntity<?> response = productService.deleteProductById(10);
 		Assert.isTrue(response.getStatusCode().is2xxSuccessful(), "is 2xx successful");
 	}

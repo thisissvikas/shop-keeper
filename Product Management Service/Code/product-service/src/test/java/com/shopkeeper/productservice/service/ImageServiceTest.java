@@ -100,21 +100,36 @@ public class ImageServiceTest {
 
 	@Test
 	public void testCreateProductImageForBadRequest() {
-		
+		MockMultipartFile file = null;
+		FileInputStream inputFile;
+		try {
+			inputFile = new FileInputStream("C:\\Temp\\classmate_.jpg");
+			file = new MockMultipartFile("classmate notebook", "classmate_", "multipart/form-data", inputFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Product mockProduct = Mockito.mock(Product.class);
+		ProductImages mockImage = Mockito.mock(ProductImages.class);
+		Mockito.when(mockProductRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(mockProduct));
+		Mockito.when(mockImageRepository.save(mockImage)).thenThrow(new IOException());
+//		Mockito.doThrow(IOException.class).when(mockImageRepository).save(mockImage);
+		ResponseEntity<?> response = imageService.createProductImage(14, file);
+		Assert.isTrue(response.getStatusCode().is4xxClientError(), "is 4xx error");
+		Assert.isNull(response.getBody(), "response is null");
 	}
 
-	@Test // This test is failing
+	@Test 
 	public void testDeleteImageByIdForTrue() {
 		Mockito.when(mockImageRepository.existsById(Mockito.anyInt())).thenReturn(true);
 		Mockito.doNothing().when(mockImageRepository).deleteById(Mockito.anyInt());
-		ResponseEntity<?> response = imageService.getImagesByProductId(10);
+		ResponseEntity<?> response = imageService.deleteImageById(14);
 		Assert.isTrue(response.getStatusCode().is2xxSuccessful(), "is 2xx successful");
 	}
 
 	@Test
 	public void testDeleteImageByIdForFalse() {
 		Mockito.when(mockImageRepository.existsById(Mockito.anyInt())).thenReturn(false);
-		ResponseEntity<?> response = imageService.getImagesByProductId(10);
+		ResponseEntity<?> response = imageService.deleteImageById(10);
 		Assert.isTrue(response.getStatusCode().is4xxClientError(), "is 4xx error");
 		Assert.isNull(response.getBody(), "response is null");
 	}
