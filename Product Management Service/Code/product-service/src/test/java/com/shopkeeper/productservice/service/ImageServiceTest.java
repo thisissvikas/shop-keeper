@@ -9,6 +9,7 @@ import java.util.Optional;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,33 +66,26 @@ public class ImageServiceTest {
     Product mockProduct = Mockito.mock(Product.class);
     Mockito.when(mockProductRepository.findById(Mockito.anyInt()))
         .thenReturn(Optional.of(mockProduct));
-    FileInputStream inputFile;
-    MockMultipartFile file = null;
-      inputFile = new FileInputStream("C:\\Temp\\classmate_.jpg");
-      file =
-          new MockMultipartFile(
-              "classmate notebook", "classmate_", "multipart/form-data", inputFile);
-      Mockito.when(mockImage.getImage()).thenReturn(file.getBytes());
-      Mockito.when(mockImage.getCreatedTimestamp()).thenReturn(new Date());
-      Mockito.when(mockImage.getUpdatedTimestamp()).thenReturn(new Date());
-      Mockito.when(mockImageRepository.save(mockImage)).thenReturn(mockImage);
-      ResponseEntity<ProductImages> response = imageService.createProductImage(10, file);
-      Assert.isTrue(response.getStatusCode().is2xxSuccessful(), "is 2xx successful");
-      Assert.isTrue(
-          response.getBody().getImage().equals(file.getBytes()), "the image must be present");
-    }
+    MultipartFile mockMultipartFile = Mockito.mock(MultipartFile.class);
+    byte[] bytes = new byte[10];
+    Mockito.when(mockMultipartFile.getBytes()).thenReturn(bytes);
+    Mockito.when(mockImage.getImage()).thenReturn(bytes);
+    Mockito.when(mockImage.getCreatedTimestamp()).thenReturn(new Date());
+    Mockito.when(mockImage.getUpdatedTimestamp()).thenReturn(new Date());
+    Mockito.when(mockImageRepository.save(mockImage)).thenReturn(mockImage);
+    ResponseEntity<ProductImages> response = imageService.createProductImage(10, mockMultipartFile);
+    Assert.isTrue(response.getStatusCode().is2xxSuccessful(), "is 2xx successful");
+    Assert.isTrue(
+        response.getBody().getImage().equals(bytes),
+        "the image must be present");
+  }
 
   @Test
   @SneakyThrows
   public void testCreateProductImageForNull() {
     Mockito.when(mockProductRepository.findById(10)).thenReturn(Optional.empty());
-    FileInputStream inputFile;
-    MockMultipartFile file = null;
-      inputFile = new FileInputStream("C:\\Temp\\classmate_.jpg");
-      file =
-          new MockMultipartFile(
-              "classmate notebook", "classmate_", "multipart/form-data", inputFile);
-    ResponseEntity<ProductImages> response = imageService.createProductImage(10, file);
+    MultipartFile mockMultiPartFile = Mockito.mock(MultipartFile.class);
+    ResponseEntity<ProductImages> response = imageService.createProductImage(10, mockMultiPartFile);
     Assert.isNull(response.getBody(), "response is null");
     Assert.isTrue(response.getStatusCode().is4xxClientError(), "is 4xx error");
     Assert.isNull(response.getBody(), "response is null");
@@ -101,8 +95,8 @@ public class ImageServiceTest {
   @Test
   public void testCreateProductImageForBadRequest() {
     MultipartFile mockMultipartFile = Mockito.mock(MultipartFile.class);
-    byte[] b = new byte[10];
-    Mockito.when(mockMultipartFile.getBytes()).thenReturn(b);
+    byte[] bytes = new byte[10];
+    Mockito.when(mockMultipartFile.getBytes()).thenReturn(bytes);
     Product mockProduct = Mockito.mock(Product.class);
     Mockito.when(mockProductRepository.findById(Mockito.anyInt()))
         .thenReturn(Optional.of(mockProduct));
