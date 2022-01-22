@@ -1,15 +1,18 @@
 version: '3'
 
 services:
-  db:
+  mysql-db:
     image: mysql
-    container_name: mysql-db
     environment:
       - MYSQL_ROOT_PASSWORD=vikas1234
       - MYSQL_USER=vikas
     ports:
       - 3306:3306
     restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
   app:
     image: shop-keeper
@@ -20,7 +23,8 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - db
+      mysql-db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/shopkeeper?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
