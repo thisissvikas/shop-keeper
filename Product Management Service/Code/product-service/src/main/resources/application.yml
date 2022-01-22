@@ -16,7 +16,7 @@ spring:
       max-request-size: 20MB
   datasource:
     platform: mysql
-    url: jdbc:mysql://localhost/shopkeeper?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-db:3306/shopkeeper?createDatabaseIfNotExist=true
     username: root
-    password: Hello!123#
+    password: vikas1234
     driverClassName: com.mysql.cj.jdbc.Driver
